@@ -1,4 +1,4 @@
-abf0720ae4d9e460bd049eb97d0dcffd *DESCRIPTION
+85b8170a5f7f273f06d9464e66fd4e10 *DESCRIPTION
 3f801264790c86235406c606596babd3 *NAMESPACE
 25744792f6a0741827b807189d44bb7a *R/AdjSD.R
 988ea1aecf7b815f8e11276156ad6c7b *R/BPI.R
@@ -11,10 +11,10 @@ b1e665d63cf16693be8b1c73126cc183 *R/RcppExports.R
 cc5cd486f64c372bcb13a679289f5349 *R/SlpAsp.R
 ed35550734ed5456dc773f3a64dbc4fb *R/SurfaceArea.R
 ad1027f7072e852a0e98908d26de7538 *R/TPI.R
-388034335cc0e8b86598ae4f71644eb7 *R/VRM.R
+394dfc3d1fa0dd7fcb5ead83df99b381 *R/VRM.R
 9d01ace365c8ab824d525343a28ba384 *R/curvatures.R
 6e6804496a6cf3975db9cbfdf39e53a5 *R/explore_terrain.R
-cce7111e9c9cd6ae278ec9b9e9d1f6ae *README.md
+a3966edb5cd048d22be3388d247599f5 *README.md
 a9cb9001f08f57073b00793991819cc1 *inst/CITATION
 3755d567869f22c588b855a29c9e454c *inst/Terrain_Attributes_Explorer_App/app.R
 31d4dc395b5132c24589bd746fdc7818 *man/AdjSD.Rd
@@ -26,7 +26,7 @@ e216aa1b35068242371b72238df6cfe5 *man/SAPA.Rd
 18c9058f81187205d9b79d7e9733d184 *man/SlpAsp.Rd
 33f71dad5f51e2f645a85169b153bf5d *man/SurfaceArea.Rd
 dfec3222b01472d457499c41ab4290a1 *man/TPI.Rd
-aaa447295d827c71fa9fce2e879552bf *man/VRM.Rd
+f4a925b459061403ef5cbad6d065ac94 *man/VRM.Rd
 7abb1785576a3300a5cd5690869cfd26 *man/annulus_window.Rd
 ddcf7758ea4285082bdbc34f0b7d06e9 *man/circle_window.Rd
 0af3403a8daf5998e0a3213d1485d97e *man/classify_features_ff.Rd
@@ -36,7 +36,7 @@ b8a90a81ae8d0eaf0ed4bd7074c0518e *man/figures/Qfit_annotated.png
 f4f5041aa3342a80e8a1827eeb45a67e *man/figures/README-unnamed-chunk-10-1.png
 f60b5010c9444ec90a7b46262fd6e83e *man/figures/README-unnamed-chunk-12-1.png
 03a9b9efadc3fa726b9bd53b958938b3 *man/figures/README-unnamed-chunk-14-1.png
-084277ae069fb1d45e431f155d97b441 *man/figures/README-unnamed-chunk-16-1.png
+5a4ae0c2138b9a1994e17bee83dacce8 *man/figures/README-unnamed-chunk-16-1.png
 eda38406f1c642e27e2b87ef2b236610 *man/figures/README-unnamed-chunk-18-1.png
 c5ec15fefd7ee7eb646eddd2121c0c9f *man/figures/README-unnamed-chunk-20-1.png
 d1d7d6a13c0e1768385b073512f5427f *man/figures/README-unnamed-chunk-22-1.png
@@ -51,7 +51,7 @@ f59f56e1489ed0042caf565f8e3f719d *man/figures/SlpAsp.png
 f8948bbc4d45246e5b6e0de8bdd08573 *man/figures/adj_sd.png
 a79a4902184493534ffdaf4b570ecd10 *man/figures/adj_sd_orig.png
 23f1a3e187cdb39128730bebdb3b8bc5 *man/figures/chaintape.png
-964f8d2c9825a244f81b4dc10985b5f5 *man/figures/kwindow.png
+d878cca38a507538164dbd81886ca85c *man/figures/kwindow.png
 e619d44373a9a5753b35084e12c15a2e *man/kmax.Rd
 955ccab5b94d1a2368ba5b4642d165a6 *man/kmean.Rd
 5b7a8bee662225890e697a646874b835 *man/kmin.Rd
@@ -60,7 +60,7 @@ ba2d634f792d838b0aded981d700520a *man/kns.Rd
 8e82e5e6643907ff3aaf05e36d042fb7 *man/ku.Rd
 e6c84c5f4a58efb8e857ce5d533c33bd *man/outlier_filter.Rd
 421fd723d57147274a7bf5fc7b6df517 *man/tgc.Rd
-e4a9a47c4a3aca98677ab8b16336e5de *src/Makevars
-e4a9a47c4a3aca98677ab8b16336e5de *src/Makevars.win
+923ea7172bd05c6523284e898c090b5f *src/Makevars
+923ea7172bd05c6523284e898c090b5f *src/Makevars.win
 aec1e084e80b516b666ce7a94879aec1 *src/RcppExports.cpp
 3bb0ac1ca8a963da75ac7ff3262d1bb3 *src/cpp_code.cpp
