@@ -1,7 +1,7 @@
 README
 ================
 Alexander Ilich
-January 30, 2023
+February 21, 2023
 
 # MultiscaleDTM
 
@@ -68,7 +68,9 @@ raster data.
   features algorithm has been modified to use more robust measures of
   curvature based on the suggestions of Minár et al. (2020).
 
-![Z = aX^2 + bY^2 +cXY+ dX +eY +f](https://latex.codecogs.com/png.latex?Z%20%3D%20aX%5E2%20%2B%20bY%5E2%20%2BcXY%2B%20dX%20%2BeY%20%2Bf "Z = aX^2 + bY^2 +cXY+ dX +eY +f")
+$$
+Z = aX^2 + bY^2 +cXY+ dX +eY +f
+$$
 
 <img src="man/figures/Qfit_annotated.png" width="70%">
 
@@ -95,27 +97,41 @@ Figure adapted from Sappington et al. (2007)
 
 Figure adapted from Habib (2021)
 
-![\text{VRM} = 1- \frac{\sqrt{\bigg(\sum x\bigg)^2+\bigg(\sum y\bigg)^2+\bigg(\sum z\bigg)^2}}{N}](https://latex.codecogs.com/png.latex?%5Ctext%7BVRM%7D%20%3D%201-%20%5Cfrac%7B%5Csqrt%7B%5Cbigg%28%5Csum%20x%5Cbigg%29%5E2%2B%5Cbigg%28%5Csum%20y%5Cbigg%29%5E2%2B%5Cbigg%28%5Csum%20z%5Cbigg%29%5E2%7D%7D%7BN%7D "\text{VRM} = 1- \frac{\sqrt{\bigg(\sum x\bigg)^2+\bigg(\sum y\bigg)^2+\bigg(\sum z\bigg)^2}}{N}")
+$$
+\text{VRM} = 1- \frac{\sqrt{\bigg(\sum x\bigg)^2+\bigg(\sum y\bigg)^2+\bigg(\sum z\bigg)^2}}{N}
+$$
 
-![x = sin(\text{slope})\*sin(\text{aspect})](https://latex.codecogs.com/png.latex?x%20%3D%20sin%28%5Ctext%7Bslope%7D%29%2Asin%28%5Ctext%7Baspect%7D%29 "x = sin(\text{slope})*sin(\text{aspect})")
+$$
+x = sin(\text{slope})*sin(\text{aspect})
+$$
 
-![y=sin(\text{slope})\*cos(\text{aspect})](https://latex.codecogs.com/png.latex?y%3Dsin%28%5Ctext%7Bslope%7D%29%2Acos%28%5Ctext%7Baspect%7D%29 "y=sin(\text{slope})*cos(\text{aspect})")
+$$
+y=sin(\text{slope})*cos(\text{aspect})
+$$
 
-![z=cos(\text{slope})](https://latex.codecogs.com/png.latex?z%3Dcos%28%5Ctext%7Bslope%7D%29 "z=cos(\text{slope})")
+$$
+z=cos(\text{slope})
+$$
 
- - `SAPA` - Calculates the Surface Area to Planar Area (Jenness, 2004).
-Rougher surfaces will have a greater surface area to planar area ratio,
-and perfectly smooth surfaces will have a value of 1. This is a 3D
-analog to the classical “chain-and-tape” method, which calculates
-roughness as the ratio of the contoured distance (chain length) and
-linear distance (tape measure distance; Risk, 1972). Additionally,
-planar area can be corrected for slope by dividing the product of the x
-and y resolution by the cosine of slope (Du Preez 2015). Moreover, a
-proposed extension to multiple scales is provided by summing the surface
-areas within the focal window and adjusting the planar area of the focal
-window using multi-scale slope.
+- `SAPA` - Calculates the Surface Area to Planar Area (Jenness, 2004).
+  Rougher surfaces will have a greater surface area to planar area
+  ratio, and perfectly smooth surfaces will have a value of 1. This is a
+  3D analog to the classical “chain-and-tape” method, which calculates
+  roughness as the ratio of the contoured distance (chain length) and
+  linear distance (tape measure distance; Risk, 1972). Additionally,
+  planar area can be corrected for slope by dividing the product of the
+  x and y resolution by the cosine of slope (Du Preez 2015). Moreover, a
+  proposed extension to multiple scales is provided by summing the
+  surface areas within the focal window and adjusting the planar area of
+  the focal window using multi-scale slope.
 
-    - `SurfaceArea` - Calculate the surface area of each grid cell (Jenness, 2004). This is accomplished by connecting a focal cell to its immediate neighbors to create 8 large triangles. These large triangles are then trimmed back to the extent of the focal cell using the principle of similar triangles, and then the area of those 8 smaller triangles are calculated and summed to estimate the surface area of the focal pixel. This is used within `SAPA`.
+  - `SurfaceArea` - Calculate the surface area of each grid cell
+    (Jenness, 2004). This is accomplished by connecting a focal cell to
+    its immediate neighbors to create 8 large triangles. These large
+    triangles are then trimmed back to the extent of the focal cell
+    using the principle of similar triangles, and then the area of those
+    8 smaller triangles are calculated and summed to estimate the
+    surface area of the focal pixel. This is used within `SAPA`.
 
 <img src="man/figures/chaintape.png" width="90%">
 
@@ -149,26 +165,43 @@ Figure adapted from Cavalli et al. (2008)
 
 ### Relative Position
 
+Relative position represents whether an area is a local high or low, and
+is calculated as the value of the focal cell minus the value of the mean
+of included values in the focal window. Positive values indicate local
+topographic highs and negative values indicate lows.Relative Position
+can be expressed in units of the input DTM raster or can standardized
+relative to the local topography by dividing by the standard deviation
+or range of included elevation values in the focal window.
+
+- `RelPos` - A flexible and general purpose function to calculate
+  relative position using a rectangular, circular, annulus, or custom
+  shaped focal window. All other relative position functions are calls
+  to `RelPos` with different default parameter values.
+
 - `TPI` - Topographic Position Index (Weiss, 2001) is the difference
   between the value of a focal cell and the mean of the surrounding
-  cells.
+  cells (i.e. the central cell is excluded from focal opertaions) within
+  a rectangular or circular focal window.
 
-- `RDMV` - Relative Difference from Mean Value (Lecours et al., 2017) is
-  the difference between the value of a focal cell and the mean of the
-  cells in the focal window divided by the range or standard deviation
-  of the values in the focal window.
+- `DMV` - Difference from Mean Value (Lecours et al., 2017; Wilson, and
+  Gallant, 2000) is the difference between the value of a focal cell and
+  the mean of all cells (i.e. including the focal cell) in a rectangular
+  or circular focal window.
 
 - `BPI` - Bathymetric Position Index (Lundblad et al., 2006) is the
   difference between the value of a focal cell and the mean of the
-  surrounding cells contained within an annulus shaped window. It is a
-  modification of TPI that uses an annulus shaped focal window and
-  therefore requires an inner and outer radius. For example, an annulus
-  window with an inner radius of 4 cells and an outer radius of 6 cells
-  would be
+  surrounding cells contained within an annulus shaped window. Since an
+  annulus shaped window is used, it requires an inner and outer radius
+  to be specified. Although the name contains “bathymetric,” that is due
+  to the context in which it was proposed, and is equally applicable to
+  terrestrial elevation data.
 
-<img src="man/figures/BPI_Fig.png" width="70%">
+<img src="man/figures/WindowShapes.png" width="100%">
 
-Figure adapted from Lundblad et al., (2006)
+Examples of different focal window shapes. Shown are a 13 x 13 cell
+rectangular window (left), a circular window with a radius of six cells
+(center), and an annulus window with an inner radius of four cells and
+an outer radius of six cells (right).
 
 ## Tutorial
 
@@ -251,30 +284,36 @@ rie<- RIE(r, w=c(5,5), na.rm = TRUE)
 ### Relative Position
 
 ``` r
-tpi<- TPI(r, w=c(5,5), na.rm = TRUE)
+rp<- RelPos(r, w=matrix(data = c(1,NA,1), nrow = 3, ncol=3), shape = "custom", na.rm = TRUE)
 ```
 
 ![](man/figures/README-unnamed-chunk-18-1.png)<!-- -->
 
 ``` r
-rdmv<- RDMV(r, w=c(5,5), na.rm = TRUE, method="range")
+tpi<- TPI(r, w=c(5,5), shape= "rectangle", na.rm = TRUE)
 ```
 
 ![](man/figures/README-unnamed-chunk-20-1.png)<!-- -->
 
 ``` r
-bpi<- BPI(r, radius = c(4,6), unit = "cell", na.rm = TRUE)
+dmv<- DMV(r, w=5, shape= "circle", na.rm = TRUE, stand="range")
 ```
 
 ![](man/figures/README-unnamed-chunk-22-1.png)<!-- -->
 
-The annulus window for BPI can be specified in either cell units (number
-of raster cells) or in map units (e.g. meters) which can be useful if
-your x and y resolutions are not equal. Additionally, the function
-`annulus_window` can be used to verify that you are specifying your
-window correctly (NA’s are excluded cells and 1’s are included cells)
-and can be directly supplied to the `w` argument in the `BPI` funtion
-instead of using `radius` and `unit` arguments.
+``` r
+bpi<- BPI(r, w = c(4,6), unit = "cell", stand= "sd", na.rm = TRUE)
+```
+
+![](man/figures/README-unnamed-chunk-24-1.png)<!-- -->
+
+Circle and annulus windows for can be specified in either cell units
+(number of raster cells) or in map units (e.g. meters) which can be
+useful if your x and y resolutions are not equal. Additionally, the
+function `circle_window` and `annulus_window` can be used to verify that
+you are specifying your window correctly (NA’s are excluded cells and
+1’s are included cells) and can be directly supplied to the `w` argument
+instead.
 
 ``` r
 annulus_window(radius = c(4,6), unit = "cell")
@@ -294,6 +333,16 @@ annulus_window(radius = c(4,6), unit = "cell")
     ## [11,]   NA   NA    1    1    1    1    1    1    1     1     1    NA    NA
     ## [12,]   NA   NA   NA    1    1    1    1    1    1     1    NA    NA    NA
     ## [13,]   NA   NA   NA   NA   NA   NA    1   NA   NA    NA    NA    NA    NA
+    ## attr(,"unit")
+    ## [1] "cell"
+    ## attr(,"scale")
+    ## [1] "4x6"
+    ## attr(,"shape")
+    ## [1] "annulus"
+
+``` r
+bpi2<- BPI(r, w = annulus_window(radius = c(4,6), unit = "cell"), stand= "sd", na.rm = TRUE) # equivalent to BPI code from earlier
+```
 
 # References
 
@@ -369,6 +418,9 @@ Geosciences 8, 94. <https://doi.org/10.3390/geosciences8030094>
 
 Weiss, A., 2001. Topographic Position and Landforms Analysis. Presented
 at the ESRI user conference, San Diego, CA.
+
+Wilson, J.P., Gallant, J.C. (Eds.), 2000. Terrain Analysis: Principles
+and Applications. John Wiley & Sons, Inc.
 
 Wilson, M.F., O’Connell, B., Brown, C., Guinan, J.C., Grehan, A.J.,
 2007. Multiscale Terrain Analysis of Multibeam Bathymetry Data for
