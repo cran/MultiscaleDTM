@@ -1,7 +1,7 @@
 README
 ================
 Alexander Ilich
-February 21, 2023
+April 10, 2023
 
 # MultiscaleDTM
 
@@ -120,10 +120,11 @@ $$
   roughness as the ratio of the contoured distance (chain length) and
   linear distance (tape measure distance; Risk, 1972). Additionally,
   planar area can be corrected for slope by dividing the product of the
-  x and y resolution by the cosine of slope (Du Preez 2015). Moreover, a
-  proposed extension to multiple scales is provided by summing the
-  surface areas within the focal window and adjusting the planar area of
-  the focal window using multi-scale slope.
+  x and y resolution by the cosine of slope (Du Preez 2015). The metric
+  by Jenness (2004) and De Preez (2015) works at the per cell level (1x1
+  cell). This function generalizes this method to multiple scales by
+  summing the surface areas within the focal window and adjusting the
+  planar area of the focal window using multi-scale slope.
 
   - `SurfaceArea` - Calculate the surface area of each grid cell
     (Jenness, 2004). This is accomplished by connecting a focal cell to
@@ -165,17 +166,21 @@ Figure adapted from Cavalli et al. (2008)
 
 ### Relative Position
 
-Relative position represents whether an area is a local high or low, and
-is calculated as the value of the focal cell minus the value of the mean
-of included values in the focal window. Positive values indicate local
-topographic highs and negative values indicate lows.Relative Position
-can be expressed in units of the input DTM raster or can standardized
-relative to the local topography by dividing by the standard deviation
-or range of included elevation values in the focal window.
+Relative position represents whether an area is a local high or low in
+relation to a reference height. It is calculated as the value of the
+focal cell minus the value of a reference elevation which is often the
+mean of included values in the focal window but could also be other
+functions such as the median, min, or max of included values. Positive
+values indicate local topographic highs and negative values indicate
+lows.Relative Position can be expressed in units of the input DTM raster
+or can standardized relative to the local topography by dividing by the
+standard deviation or range of included elevation values in the focal
+window.
 
 - `RelPos` - A flexible and general purpose function to calculate
   relative position using a rectangular, circular, annulus, or custom
-  shaped focal window. All other relative position functions are calls
+  shaped focal window and various functions of the included values as
+  the reference height All other relative position functions are calls
   to `RelPos` with different default parameter values.
 
 - `TPI` - Topographic Position Index (Weiss, 2001) is the difference
@@ -205,14 +210,21 @@ an outer radius of six cells (right).
 
 ## Tutorial
 
-In this tutorial we will calculate various terrain attributes using a 5
-x 5 cell rectangular window. Any rectangular odd numbered window size
-however could be used (see figure directly below). Window sizes are
-specified with a vector of length 2 of `c(n_rows, n_cols)`. If a single
-number is provided it will be used for both the number of rows and
-columns. The only metric that does not follow this syntax is BPI which
-uses an annulus shaped focal window which we will calculate using an
-inner radius of 4 and an outer radius of 6 cells.
+In this tutorial we will calculate most terrain attributes using a 5 x 5
+cell rectangular window; however, any rectangular odd numbered window
+size could be used. Window size is specified using the `w` parameter.
+Rectangular window sizes are specified with a vector of length 2 as
+`c(n_rows, n_cols)`. If a single number is provided it will be used for
+both the number of rows and columns. Functions that calculate relative
+position currently support other focal window shapes. In those examples,
+we will additionally calculate the measures using a circular focal
+window with a radius of 2 cells, an annulus window with an inner radius
+of 4 and an outer radius of 6 cells, and a custom focal window. Circular
+windows are specified by a single number representing the radius,
+annulus windows are specified with a vector of length 2 of
+`c(inner_radius, outer_radius)`, and custom windows are specified by a
+matrix with values showing which data to include (1’s) and which data to
+exclude (NA’s).
 
 **Load packages**
 
@@ -232,7 +244,7 @@ help(package="MultiscaleDTM")
 r<- rast(volcano, extent= ext(2667400, 2667400 + ncol(volcano)*10, 6478700, 6478700 + nrow(volcano)*10), crs = "EPSG:27200")
 ```
 
-![](man/figures/README-unnamed-chunk-4-1.png)<!-- -->
+![](man/figures/README-Topo-1.png)<!-- -->
 
 ### Slope, Aspect, and Curvature
 
@@ -240,13 +252,13 @@ r<- rast(volcano, extent= ext(2667400, 2667400 + ncol(volcano)*10, 6478700, 6478
 slp_asp<- SlpAsp(r = r, w = c(5,5), unit = "degrees", method = "queen", metrics = c("slope", "aspect", "eastness", "northness"))
 ```
 
-![](man/figures/README-unnamed-chunk-6-1.png)<!-- -->
+![](man/figures/README-SlpAsp-1.png)<!-- -->
 
 ``` r
 qmetrics<- Qfit(r, w = c(5,5), unit = "degrees", metrics = c("elev", "qslope", "qaspect", "qeastness", "qnorthness", "profc", "planc", "twistc", "meanc", "maxc", "minc", "features"), na.rm = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-8-1.png)<!-- -->
+![](man/figures/README-Qfit-1.png)<!-- -->
 
 To explore these measures in an interactive environment use
 `explore_terrain()` or go to this
@@ -258,54 +270,54 @@ To explore these measures in an interactive environment use
 vrm<- VRM(r, w=c(5,5), na.rm = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-10-1.png)<!-- -->
-
-Note: multi-scale SAPA is experimental. The established metric by De
-Preez (2015) would use `w=1`.
+![](man/figures/README-VRM-1.png)<!-- -->
 
 ``` r
 sapa<- SAPA(r, w=c(5,5), slope_correction = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-12-1.png)<!-- -->
+![](man/figures/README-SAPA-1.png)<!-- -->
 
 ``` r
 adj_SD<- AdjSD(r, w=c(5,5), na.rm = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-14-1.png)<!-- -->
+![](man/figures/README-AdjSD-1.png)<!-- -->
 
 ``` r
 rie<- RIE(r, w=c(5,5), na.rm = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-16-1.png)<!-- -->
+![](man/figures/README-RIE-1.png)<!-- -->
 
 ### Relative Position
 
+Note, the “s” at the start of some names indicates the attribute has
+been standardized based on local topography.
+
 ``` r
-rp<- RelPos(r, w=matrix(data = c(1,NA,1), nrow = 3, ncol=3), shape = "custom", na.rm = TRUE)
+rp<- RelPos(r, w=matrix(data = c(1,NA,1), nrow = 3, ncol=3), shape = "custom", fun = "median", na.rm = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-18-1.png)<!-- -->
+![](man/figures/README-RP-1.png)<!-- -->
 
 ``` r
 tpi<- TPI(r, w=c(5,5), shape= "rectangle", na.rm = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-20-1.png)<!-- -->
+![](man/figures/README-TPI-1.png)<!-- -->
 
 ``` r
-dmv<- DMV(r, w=5, shape= "circle", na.rm = TRUE, stand="range")
+dmv<- DMV(r, w=2, shape= "circle", na.rm = TRUE, stand="range")
 ```
 
-![](man/figures/README-unnamed-chunk-22-1.png)<!-- -->
+![](man/figures/README-DMV-1.png)<!-- -->
 
 ``` r
 bpi<- BPI(r, w = c(4,6), unit = "cell", stand= "sd", na.rm = TRUE)
 ```
 
-![](man/figures/README-unnamed-chunk-24-1.png)<!-- -->
+![](man/figures/README-BPI-1.png)<!-- -->
 
 Circle and annulus windows for can be specified in either cell units
 (number of raster cells) or in map units (e.g. meters) which can be
