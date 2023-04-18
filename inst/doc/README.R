@@ -5,7 +5,8 @@ knitr::opts_chunk$set(
   echo = TRUE, warning = FALSE, message = FALSE)
 
 ## ----setup, include=FALSE-----------------------------------------------------
-fig_dir<- "../man/figures/"
+md_fig_dir<- "../man/figures/" #Path relative to this Rmd
+R_fig_dir<- "../figures/" #Path relative to child Rmd
 
 ## ----message=FALSE------------------------------------------------------------
 library(MultiscaleDTM) #Load MultiscaleDTM package
@@ -57,9 +58,11 @@ slp_asp_plot
 qmetrics<- Qfit(r, w = c(5,5), unit = "degrees", metrics = c("elev", "qslope", "qaspect", "qeastness", "qnorthness", "profc", "planc", "twistc", "meanc", "maxc", "minc", "features"), na.rm = TRUE)
 
 ## ----Qfit, echo= FALSE--------------------------------------------------------
-qmetrics_list<- vector(mode="list", length = nlyr(qmetrics))
-for (i in 1:length(qmetrics_list)) {
+library(cowplot)
+for (i in 1:nlyr(qmetrics)) {
   curr_var<- names(qmetrics)[i]
+  i_txt<- as.character(i)
+  if(nchar(i)==1){i_txt<- paste0("0", i_txt)}
   
   if (grepl(pattern = "(northness)|(eastness)", curr_var)) {
     breaks<- c(-1,0,1)
@@ -73,9 +76,6 @@ for (i in 1:length(qmetrics_list)) {
     style<- "cont"
     } else if(grepl(pattern = "^features", curr_var)) {
     curr_pal<- c("gray", "orange", "black", "blue", "green", "yellow", "red")
-    midpoint<- NULL
-    breaks<- NULL
-    style<- "cat"
   } else if(grepl(pattern = "c$", curr_var)){
     curr_pal<- c("blue", "gray", "red")
     style<- "cont"
@@ -87,14 +87,25 @@ for (i in 1:length(qmetrics_list)) {
     breaks<- NULL
     style<- "cont"}
   
-  qmetrics_list[[i]]<- tm_shape(qmetrics[[i]], raster.downsample = FALSE) +
+  if(!grepl(pattern = "^features", curr_var)){
+    qfit_plt<- tm_shape(qmetrics[[i]], raster.downsample = FALSE) +
     tm_raster(palette = curr_pal, style= style, title = "", breaks = breaks, midpoint = midpoint, legend.reverse = TRUE)+
-      tm_layout(main.title = curr_var, 
-      main.title.position = "center",
-      main.title.size=0.75)
+      tm_layout(legend.outside = TRUE, legend.text.size = 0.7, legend.frame=FALSE,
+      legend.outside.size = 0.4, outer.margins = 0.01, asp = 0, frame = FALSE)
+    tmap_save(qfit_plt, filename = paste0(R_fig_dir, "qfit", i_txt, ".png"), dpi=300, width =3, height = 2, units = "in")
+    } else{
+      png(filename = paste0(R_fig_dir, "qfit", i_txt, ".png"), res = 300, width =3.5, height = 3, units = "in")
+      qfit_plt<- plot(qmetrics[[i]],col=curr_pal, axes=FALSE, box=FALSE, cex=0.1)
+      dev.off()
+      } 
 }
-qmetrics_plot<- tmap_arrange(qmetrics_list, ncol=3)
-qmetrics_plot
+
+qfit_plt_files<- list.files(R_fig_dir, pattern = "qfit\\d{2}.png$", full.names = TRUE)
+qfit_plt_list<- vector(mode = "list", length = length(qfit_plt_files))
+for (i in seq_along(qfit_plt_list)) {
+  qfit_plt_list[[i]]<- ggdraw()+ draw_image(qfit_plt_files[[i]])
+  }
+save_plot(plot_grid(plotlist = qfit_plt_list, ncol = 3, labels = names(qmetrics), label_size = 12, align = "hv"),filename= paste0(R_fig_dir, "qmetrics.jpg"), base_width=7.5, base_height=9, unit="in")
 
 ## -----------------------------------------------------------------------------
 vrm<- VRM(r, w=c(5,5), na.rm = TRUE)
