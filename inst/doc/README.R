@@ -15,7 +15,7 @@ library(MultiscaleDTM) #Load MultiscaleDTM package
 #  help(package="MultiscaleDTM")
 
 ## -----------------------------------------------------------------------------
-r<- rast(volcano, extent= ext(2667400, 2667400 + ncol(volcano)*10, 6478700, 6478700 + nrow(volcano)*10), crs = "EPSG:27200")
+r<- erupt()
 
 ## ----Topo, echo= FALSE, message=FALSE-----------------------------------------
 library(tmap) #For plotting
@@ -24,7 +24,7 @@ tm_shape(r, raster.downsample = FALSE)+
   tm_layout(legend.outside=TRUE, main.title= "Elevation")
 
 ## -----------------------------------------------------------------------------
-slp_asp<- SlpAsp(r = r, w = c(5,5), unit = "degrees", method = "queen", metrics = c("slope", "aspect", "eastness", "northness"))
+slp_asp<- SlpAsp(r = r, w = c(5,5), unit = "degrees", method = "queen", metrics = c("slope", "aspect", "eastness", "northness"), na.rm=TRUE)
 
 ## ----SlpAsp, echo=FALSE-------------------------------------------------------
 slp_asp_list<- vector(mode="list", length = nlyr(slp_asp))
@@ -92,20 +92,20 @@ for (i in 1:nlyr(qmetrics)) {
     tm_raster(palette = curr_pal, style= style, title = "", breaks = breaks, midpoint = midpoint, legend.reverse = TRUE)+
       tm_layout(legend.outside = TRUE, legend.text.size = 0.7, legend.frame=FALSE,
       legend.outside.size = 0.4, outer.margins = 0.01, asp = 0, frame = FALSE)
-    tmap_save(qfit_plt, filename = paste0(R_fig_dir, "qfit", i_txt, ".png"), dpi=300, width =3, height = 2, units = "in")
+    tmap_save(qfit_plt, filename = paste0(R_fig_dir, "sub_qfit", i_txt, ".png"), dpi=150, width =3, height = 2, units = "in")
     } else{
-      png(filename = paste0(R_fig_dir, "qfit", i_txt, ".png"), res = 300, width =3.5, height = 3, units = "in")
+      png(filename = paste0(R_fig_dir, "sub_qfit", i_txt, ".png"), res = 150, width =3.5, height = 3, units = "in")
       qfit_plt<- plot(qmetrics[[i]],col=curr_pal, axes=FALSE, box=FALSE, cex=0.1)
       dev.off()
       } 
 }
 
-qfit_plt_files<- list.files(R_fig_dir, pattern = "qfit\\d{2}.png$", full.names = TRUE)
+qfit_plt_files<- list.files(R_fig_dir, pattern = "sub_qfit\\d{2}.png$", full.names = TRUE)
 qfit_plt_list<- vector(mode = "list", length = length(qfit_plt_files))
 for (i in seq_along(qfit_plt_list)) {
   qfit_plt_list[[i]]<- ggdraw()+ draw_image(qfit_plt_files[[i]])
   }
-save_plot(plot_grid(plotlist = qfit_plt_list, ncol = 3, labels = names(qmetrics), label_size = 12, align = "hv"),filename= paste0(R_fig_dir, "qmetrics.jpg"), base_width=7.5, base_height=9, unit="in")
+save_plot(plot_grid(plotlist = qfit_plt_list, ncol = 3, labels = names(qmetrics), label_size = 12, align = "hv"),filename= paste0(R_fig_dir, "qmetrics.jpg"), base_width=7.5, base_height=9, dpi= 150, unit="in")
 
 ## -----------------------------------------------------------------------------
 vrm<- VRM(r, w=c(5,5), na.rm = TRUE)
