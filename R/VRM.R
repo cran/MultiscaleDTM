@@ -19,6 +19,7 @@
 #' @importFrom raster raster
 #' @importFrom raster writeRaster
 #' @importFrom utils packageVersion
+#' @importFrom utils compareVersion
 #' @details
 #' If the crs is cartesian, when na.rm=TRUE, NA's will be removed from the slope/aspect calculations. When the crs is lat/lon, na.rm=TRUE will not affect the calculation of slope/aspect as terra::terrain will be used since it can calculate slope and aspect for spherical geometry but it does not support na.rm. In both cases when na.rm=TRUE, the x, y, and z components will be summed with na.rm=TRUE, and the N used in the denominator of the VRM equation will be the number of non-NA cells in the window rather than the total number of cells.
 #' 
@@ -50,7 +51,7 @@ VRM<- function(r, w=c(3,3), na.rm = FALSE, include_scale=FALSE, filename=NULL, o
     stop("Error: w must be greater or equal to 3 in at least one dimension")
   }
   
-  if((packageVersion("terra") < "1.5.49") & isTRUE(terra::is.lonlat(r, perhaps=FALSE))){
+  if((compareVersion(as.character(packageVersion("terra")), "1.5.49")==-1) & isTRUE(terra::is.lonlat(r, perhaps=FALSE))){
     warning("Distance calculations conducted using Haversine (spheroid) rather geodesic formulas since terra version is < 1.5.49")
     }
   
