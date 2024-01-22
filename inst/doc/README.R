@@ -116,7 +116,7 @@ tm_shape(vrm, raster.downsample = FALSE)+
   tm_layout(legend.outside = TRUE, main.title="VRM")
 
 ## -----------------------------------------------------------------------------
-sapa<- SAPA(r, w=c(5,5), slope_correction = TRUE)
+sapa<- SAPA(r, w=c(5,5), slope_correction = TRUE, na.rm=TRUE)
 
 ## ----SAPA, echo=FALSE---------------------------------------------------------
 tm_shape(sapa, raster.downsample = FALSE)+
