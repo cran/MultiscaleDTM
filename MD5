@@ -1,4 +1,4 @@
-62b9a07057ca57d5b0e59742a93f24f8 *DESCRIPTION
+35b969c00f781339d690e32e45a95535 *DESCRIPTION
 4c0839ff23d7f806047153b08d167f25 *NAMESPACE
 e410988d73802b48f05263cbd55f20d2 *R/AdjSD.R
 97bd2e378e375f18d82ca27562fd6f6f *R/BPI.R
@@ -10,7 +10,7 @@ f955b5eef82448700dbe17c6332b5b17 *R/Qfit.R
 cff7bcf470a7909737165bccfa45d0cc *R/RcppExports.R
 131e27a0a0d218b22f7e7be0f6fdfeb1 *R/RelPos.R
 f28eea254eb593c178edec8c1d223503 *R/SAPA.R
-0cd1ada1932f739dcfad04dbff176364 *R/SlpAsp.R
+d37c6e8f7a6d3255d29ed1324daed4db *R/SlpAsp.R
 a724a67c060459c0d94e1f35455e075c *R/SurfaceArea.R
 897387236de95c7f4718b8f9fe5ab660 *R/TPI.R
 5fbc80a280fea78d65c04fa20d81b94b *R/VRM.R
@@ -23,7 +23,7 @@ e4450394fa1da708dbaef06151c78b3a *build/vignette.rds
 3755d567869f22c588b855a29c9e454c *inst/Terrain_Attributes_Explorer_App/app.R
 d2cebe866ce456d9be6094134e5ecd4e *inst/doc/README.R
 d0e6bbe35cbd0c3a4e1d48e485770ce9 *inst/doc/README.Rmd
-e6ce11abb5e1c659faba1a63396d7787 *inst/doc/README.html
+92734c9446023dc33b5c27ac745175f0 *inst/doc/README.html
 72e676ce2849b26ef3be63b0c7c0388b *inst/testdata/adj_sd.RDS
 011c916fc05cafcbb3b309698735c116 *inst/testdata/bpi.RDS
 7d6885687fdf41e8ed6d77684c8e3f0f *inst/testdata/dmv.RDS
@@ -43,7 +43,7 @@ bb1ac2b63e92305f23e1fd61fed4e1e6 *man/Qfit.Rd
 7b97fce3c78ebcfbcb28b89d20b1a02b *man/RIE.Rd
 b45a1fe4b668a72339e16c4efe60e67a *man/RelPos.Rd
 7ecf3e8ad1911628aaaf2de7a5c66bdb *man/SAPA.Rd
-d01ed0de49a287fe0e2a60f344acd5a9 *man/SlpAsp.Rd
+63b840a444d0e92bfb98ea7d3fc94e9f *man/SlpAsp.Rd
 1d4bc977c4063f02392ba243d452b10f *man/SurfaceArea.Rd
 ca64124db7557f1bbfc844c7e189f0f8 *man/TPI.Rd
 4229c511939bc5e53e5dd8b42f7a8a13 *man/VRM.Rd
