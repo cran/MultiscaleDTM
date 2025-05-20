@@ -1,7 +1,7 @@
 README
 ================
 Alexander Ilich
-January 16, 2025
+April 25, 2025
 
 # MultiscaleDTM
 
@@ -50,23 +50,27 @@ raster data.
 
 ### Slope, Aspect and Curvature
 
-- `SlpAsp` calculates multi-scale slope and aspect according to Misiuk
-  et al (2021) which is a modification of the traditional 3 x 3 slope
-  and aspect algorithms (Fleming and Hoffer, 1979; Horn et al., 1981;
-  Ritter, 1987). This algorithm only considers a subset of cells within
-  the focal window, specifically the four cells on the edge of the focal
-  window directly up, down, left, and right of the focal cell for the
-  “rook” method, an additional four corner cells for the “queen” method,
-  or all edge cells for the “boundary” method.
-  <img src="man/figures/SlpAsp.png" width="70%">
+- `SlpAsp` - Calculates multi-scale slope and aspect using a modified
+  version of the algorithm from Misiuk et al (2021) which extends
+  classical formulations of slope restricted to a 3x3 window (Fleming
+  and Hoffer, 1979; Horn et al., 1981; Ritter, 1987). This algorithm
+  only considers a subset of cells within the focal window, specifically
+  the four cells on the edge of the focal window directly up, down,
+  left, and right of the focal cell for the “rook” method, an additional
+  four corner cells for the “queen” method, or all edge cells for the
+  “boundary” method.
 
-- `Qfit` calculates slope, aspect, curvature, and morphometric features
-  by fitting a quadratic surface to the focal window using ordinary
-  least squares using the equation shown below where a-f are regression
-  parameters, Z is the elevation/depth, X is the east/west coordinates
-  in the focal window relative to the focal cell, and Y is the
-  north/south coordinates in the focal window relative to the focal cell
-  (Evans, 1980; Wilson et al., 2007; Wood, 1996). The morphometric
+<img src="man/figures/SlpAsp.png" width="70%">
+
+- `DirSlp` - Calculates multi-scale slope in a specified direction.
+
+- `Qfit` - Calculates slope, aspect, curvature, and morphometric
+  features by fitting a quadratic surface to the focal window using
+  ordinary least squares using the equation shown below where a-f are
+  regression parameters, Z is the elevation/depth, X is the east/west
+  coordinates in the focal window relative to the focal cell, and Y is
+  the north/south coordinates in the focal window relative to the focal
+  cell (Evans, 1980; Wilson et al., 2007; Wood, 1996). The morphometric
   features algorithm has been modified to use more robust measures of
   curvature based on the suggestions of Minár et al. (2020).
 
@@ -77,6 +81,11 @@ $$
 <img src="man/figures/Qfit_annotated.png" width="70%">
 
 Figure adapted from Walbridge et al., (2018)
+
+- `Pfit` - Calculates multiscale slope and aspect aspect by fitting a
+  planar surface to the focal window using ordinary least squares. This
+  will provide equivalent results to using a quadratic fit (Jones, 1998)
+  but is less computationally expensive.
 
 ### Roughness
 
@@ -89,7 +98,7 @@ Figure adapted from Walbridge et al., (2018)
   of the head of the vector relative to its origin) and used in the
   following equation (note: N is the number of cells in the window). VRM
   ranges from zero to one, representing completely smooth to rough
-  surfaces, respectively. .
+  surfaces, respectively.
 
 <img src="man/figures/VRM_annotated.png" width="70%">
 
@@ -402,6 +411,10 @@ analysis. Transactions in GIS, 27(4).
 Jenness, J.S., 2004. Calculating landscape surface area from digital
 elevation models. Wildlife Society Bulletin 32, 829–839.
 <https://doi.org/10.2193/0091-7648(2004)032%5B0829:CLSAFD%5D2.0.CO;2>
+
+Jones, K. H. (1998). A comparison of algorithms used to compute hill
+slope as a property of the DEM. Computers & Geosciences, 24(4), 315–323.
+<https://doi.org/10.1016/S0098-3004(98)00032-6>
 
 Lecours, V., Devillers, R., Simms, A.E., Lucieer, V.L., Brown, C.J.,
 2017. Towards a Framework for Terrain Attribute Selection in

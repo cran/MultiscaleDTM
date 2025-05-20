@@ -27,9 +27,9 @@ SlpAsp(
 
 \item{method}{"rook", "queen" (default), or "boundary". The method indicates which cells to use to in computations. "rook" uses only the 4 edge cells directly up, down, left, and right; "queen" adds an additional four corner cells; "boundary" uses all edge cells (see details for more information).}
 
-\item{metrics}{a character string or vector of character strings of which terrain attributes to return. Default is to return all available attributes which are c("slope", "aspect", "eastness", "northness").}
+\item{metrics}{a character string or vector of character strings of which terrain attributes to return. Default is to return c("slope", "aspect", "eastness", "northness"). Additional measures available include "dz.dx" and "dz.dy" which are the x and y components of slope respectively.}
 
-\item{na.rm}{Logical indicating whether or not to remove NA values before calculations. Only applicable if method is "queen" or "8".}
+\item{na.rm}{Logical indicating whether or not to remove NA values before calculations. Not applicable for "rook" method.}
 
 \item{include_scale}{logical indicating whether to append window size to the layer names (default = FALSE)}
 
@@ -54,9 +54,7 @@ dz.dy is the difference in between the weighted mean of the top side of the foca
 The cells used in these computations is dependent on the "method" chosen. For methods "queen" and "boundary", corner cells have half the weight of all other cells used in the computations.
 }
 \examples{
-r<- rast(volcano, extent= ext(2667400, 2667400 + 
-ncol(volcano)*10, 6478700, 6478700 + nrow(volcano)*10), 
-crs = "EPSG:27200")
+r<- erupt()
 slp_asp<- SlpAsp(r = r, w = c(5,5), unit = "degrees", 
 method = "queen", metrics = c("slope", "aspect", 
 "eastness", "northness"))

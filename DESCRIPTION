@@ -1,6 +1,6 @@
 Package: MultiscaleDTM
 Title: Multi-Scale Geomorphometric Terrain Attributes
-Version: 0.9.1
+Version: 1.0
 Authors@R: 
      c(
     person(given = "Alexander",
@@ -33,11 +33,12 @@ URL: https://ailich.github.io/MultiscaleDTM/,
 VignetteBuilder: knitr
 Config/testthat/edition: 3
 NeedsCompilation: yes
-Packaged: 2025-01-20 19:55:28 UTC; socce
-Author: Alexander Ilich [aut, cre] (<https://orcid.org/0000-0003-1758-8499>),
+Packaged: 2025-05-20 18:17:44 UTC; socce
+Author: Alexander Ilich [aut, cre] (ORCID:
+    <https://orcid.org/0000-0003-1758-8499>),
   Vincent Lecours [aut],
   Benjamin Misiuk [aut],
   Steven Murawski [aut]
 Maintainer: Alexander Ilich <ailich@usf.edu>
 Repository: CRAN
-Date/Publication: 2025-01-21 09:20:02 UTC
+Date/Publication: 2025-05-20 18:50:03 UTC
